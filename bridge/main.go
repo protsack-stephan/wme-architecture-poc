@@ -88,7 +88,7 @@ func main() {
 
 			pmsg := kafka.Message{
 				TopicPartition: kafka.TopicPartition{Topic: &schema.TopicPages, Partition: 0},
-				Key:            []byte(fmt.Sprintf("%s%s", evt.Data.Database, evt.Data.PageTitle)),
+				Key:            []byte(fmt.Sprintf("%s_%s", evt.Data.Database, evt.Data.PageTitle)),
 			}
 
 			if pmsg.Value, err = json.Marshal(pevt); err != nil {
@@ -109,7 +109,7 @@ func main() {
 
 			vmsg := kafka.Message{
 				TopicPartition: kafka.TopicPartition{Topic: &schema.TopicVersions, Partition: 0},
-				Key:            []byte(fmt.Sprintf("%s%d", evt.Data.Database, evt.Data.RevID)),
+				Key:            []byte(fmt.Sprintf("%s_%d", evt.Data.Database, evt.Data.RevID)),
 			}
 
 			if vmsg.Value, err = json.Marshal(vevt); err != nil {

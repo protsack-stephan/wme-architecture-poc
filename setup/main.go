@@ -27,7 +27,7 @@ func main() {
 		"min.cleanable.dirty.ratio": "0.01",
 		"delete.retention.ms":       "100",
 		"segment.ms":                "100",
-		"max.message.bytes":         "4194304",
+		"max.message.bytes":         "20971520",
 	}
 
 	params := []kafka.TopicSpecification{
