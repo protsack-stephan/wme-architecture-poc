@@ -2,20 +2,9 @@ package schema
 
 import "time"
 
-const (
-	EventPageUpdate = "page_update"
-)
-
-// PageEvent representation of event in kaka topic
-type PageEvent struct {
-	UID     string    `json:"uid"`
-	Type    string    `json:"type"`
-	Date    time.Time `json:"date"`
-	Payload *Page     `json:"payload"`
-}
-
 // Page schema
 type Page struct {
+	Event        *Event         `json:"event,omitempty"`
 	Name         string         `json:"name,omitempty"`
 	Identifier   int            `json:"identifier"`
 	Version      *Version       `json:"version,omitempty"`

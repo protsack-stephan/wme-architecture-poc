@@ -55,11 +55,8 @@ func main() {
 				return
 			}
 
-			version := new(schema.Version)
-			version.Comment = pageData.Revisions[0].Comment
-			version.Identifier = pageData.Revisions[0].RevID
-
 			page := new(schema.Page)
+			page.Name = pageData.Title
 			page.Identifier = pageData.PageID
 			page.DateModified = pageData.Touched
 			page.URL = fmt.Sprintf("%s/wiki/%s", url, evt.Data.PageTitle)
@@ -80,18 +77,17 @@ func main() {
 				EncodingFormat: pageData.Revisions[0].Slots.Main.Contentformat,
 			})
 
-			pevt := new(schema.PageEvent)
-			pevt.UID = uuid.NewString()
-			pevt.Date = time.Now().UTC()
-			pevt.Type = schema.EventPageUpdate
-			pevt.Payload = page
+			page.Event = new(schema.Event)
+			page.Event.UUID = uuid.NewString()
+			page.Event.Date = time.Now().UTC()
+			page.Event.Type = schema.EventTypeUpdate
 
 			pmsg := kafka.Message{
 				TopicPartition: kafka.TopicPartition{Topic: &schema.TopicPages, Partition: 0},
-				Key:            []byte(fmt.Sprintf("%s_%s", evt.Data.Database, evt.Data.PageTitle)),
+				Key:            []byte(fmt.Sprintf("pages/%s/%s", evt.Data.Database, evt.Data.PageTitle)),
 			}
 
-			if pmsg.Value, err = json.Marshal(pevt); err != nil {
+			if pmsg.Value, err = json.Marshal(page); err != nil {
 				log.Println(err)
 				return
 			}
@@ -101,18 +97,21 @@ func main() {
 				return
 			}
 
-			vevt := new(schema.VersionEvent)
-			vevt.UID = uuid.NewString()
-			vevt.Date = time.Now().UTC()
-			vevt.Type = schema.EventVersionCreate
-			vevt.Payload = version
+			version := new(schema.Version)
+			version.Comment = pageData.Revisions[0].Comment
+			version.Identifier = pageData.Revisions[0].RevID
+
+			version.Event = new(schema.Event)
+			version.Event.UUID = uuid.NewString()
+			version.Event.Date = time.Now().UTC()
+			version.Event.Type = schema.EventTypeCreate
 
 			vmsg := kafka.Message{
 				TopicPartition: kafka.TopicPartition{Topic: &schema.TopicVersions, Partition: 0},
-				Key:            []byte(fmt.Sprintf("%s_%d", evt.Data.Database, evt.Data.RevID)),
+				Key:            []byte(fmt.Sprintf("versions/%s/%d", evt.Data.Database, evt.Data.RevID)),
 			}
 
-			if vmsg.Value, err = json.Marshal(vevt); err != nil {
+			if vmsg.Value, err = json.Marshal(version); err != nil {
 				log.Println(err)
 				return
 			}

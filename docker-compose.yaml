@@ -16,6 +16,7 @@ services:
     ports:
       - 29092:29092
     environment:
+      KAFKA_MESSAGE_MAX_BYTES: 20971520
       KAFKA_BROKER_ID: 1
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://broker:9092,PLAINTEXT_HOST://localhost:29092
@@ -45,3 +46,15 @@ services:
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_REPLICATION_FACTOR: 1
       KSQL_KSQL_LOGGING_PROCESSING_TOPIC_AUTO_CREATE: 'true'
       KSQL_KSQL_LOGGING_PROCESSING_STREAM_AUTO_CREATE: 'true'
+  
+  minio:
+    image: minio/minio
+    ports:
+      - 9000:9000
+      - 9200:9200
+    volumes:
+      - ./.vol:/data
+    environment:
+      MINIO_ROOT_USER: admin
+      MINIO_ROOT_PASSWORD: password
+    command: server /data --console-address :9200
