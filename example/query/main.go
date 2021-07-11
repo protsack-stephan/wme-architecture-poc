@@ -9,9 +9,11 @@ import (
 	"strings"
 )
 
+const url = "http://localhost:8088/query"
+const query = `SELECT identifier, name, version__comment from pages_versions EMIT CHANGES;`
+
 func main() {
-	res, err := http.Post("http://localhost:8088/query", "application/json", strings.NewReader(`{"ksql": "SELECT identifier, name, event, version->identifier as versionID FROM pages EMIT CHANGES;"}`))
-	// res, err := http.Post("http://localhost:8088/query", "application/json", strings.NewReader(`{"ksql": "SELECT identifier, comment, event FROM versions EMIT CHANGES;"}`))
+	res, err := http.Post(url, "application/json", strings.NewReader(fmt.Sprintf(`{"ksql": "%s"}`, query)))
 
 	if err != nil {
 		log.Panic(err)
