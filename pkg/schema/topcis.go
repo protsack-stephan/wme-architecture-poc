@@ -1,6 +1,6 @@
 package schema
 
 var (
-	TopicPages    = "aws.pages.v1"
-	TopicVersions = "aws.versions.v1"
+	TopicPages    = "loc.pages.v1"
+	TopicVersions = "loc.versions.v1"
 )
