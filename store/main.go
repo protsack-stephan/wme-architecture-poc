@@ -81,7 +81,7 @@ func main() {
 						log.Printf("key: %s, err: %v\n", string(msg.Key), err)
 					}
 				default:
-					log.Printf("key: %s, err: unknown event type '%s'", string(msg.Key), eMsg.Event.Type)
+					log.Printf("key: %s, err: unknown event type '%s'\n", string(msg.Key), eMsg.Event.Type)
 				}
 			}
 		}(topic)

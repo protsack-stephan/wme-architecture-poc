@@ -35,7 +35,7 @@ func main() {
 
 	for scn.Scan() {
 		if len(scn.Text()) > 0 {
-			fmt.Println(scn.Text())
+			log.Println(scn.Text())
 		}
 	}
 }
