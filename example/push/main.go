@@ -4,7 +4,7 @@ import (
 	"context"
 	"log"
 
-	"github.com/protsack-stephan/wme-architecture-poc/ksqldb"
+	"github.com/protsack-stephan/wme-architecture-poc/pkg/ksqldb"
 )
 
 const url = "http://localhost:8088/"
