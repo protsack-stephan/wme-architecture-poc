@@ -9,4 +9,5 @@ require (
 	github.com/protsack-stephan/dev-toolkit v1.1.4
 	github.com/protsack-stephan/mediawiki-api-client v1.1.5
 	github.com/protsack-stephan/mediawiki-eventstream-client v0.0.0-20210212073600-f163e615deb2
+	golang.org/x/net v0.0.0-20210614182718-04defd469f4e
 )
